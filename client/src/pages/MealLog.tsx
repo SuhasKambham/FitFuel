@@ -26,7 +26,7 @@ const MealLog = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
   const [showForm, setShowForm] = useState(false);
-  const [editingMeal, setEditingMeal] = useState(null);
+  const [editingMeal, setEditingMeal] = useState<Meal | null>(null);
   const [formData, setFormData] = useState({
     mealType: '',
     notes: '',
