@@ -1,13 +1,37 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { getWorkouts, getMeals } from '../services/api';
 import { useAuth } from '../context/AuthContext';
 import { FaDumbbell, FaUtensils, FaCalendarAlt, FaChevronLeft, FaChevronRight, FaFire, FaClock } from 'react-icons/fa';
 
+// Add types for meals and workouts
+interface FoodItem {
+  name: string;
+  calories: number;
+  protein: number;
+  carbs: number;
+  fat: number;
+}
+interface Meal {
+  _id: string;
+  mealType: string;
+  notes?: string;
+  date: string;
+  foodItems: FoodItem[];
+}
+interface Workout {
+  _id: string;
+  type: string;
+  duration: number;
+  caloriesBurned: number;
+  notes?: string;
+  date: string;
+}
+
 const Calendar = () => {
   const { token } = useAuth();
-  const [workouts, setWorkouts] = useState([]);
-  const [meals, setMeals] = useState([]);
+  const [workouts, setWorkouts] = useState<Workout[]>([]);
+  const [meals, setMeals] = useState<Meal[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
   const [currentDate, setCurrentDate] = useState(new Date());
@@ -57,11 +81,11 @@ const Calendar = () => {
 
   const getEventsForDate = (date: Date) => {
     const dateStr = date.toLocaleDateString('en-GB');
-    const dayWorkouts = workouts.filter((w: any) => {
+    const dayWorkouts = workouts.filter((w: Workout) => {
       const wDate = new Date(w.date).toLocaleDateString('en-GB');
       return wDate === dateStr;
     });
-    const dayMeals = meals.filter((m: any) => {
+    const dayMeals = meals.filter((m: Meal) => {
       const mDate = new Date(m.date).toLocaleDateString('en-GB');
       return mDate === dateStr;
     });
@@ -99,7 +123,7 @@ const Calendar = () => {
   };
 
   // Helper to sum nutrition for a meal
-  const getMealTotals = (foodItems: any[]) => {
+  const getMealTotals = (foodItems: FoodItem[]) => {
     return foodItems.reduce(
       (totals, item) => ({
         calories: totals.calories + (Number(item.calories) || 0),
@@ -451,7 +475,7 @@ const Calendar = () => {
                       Workouts ({selectedEvents.workouts.length})
                     </h4>
                     <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
-                      {selectedEvents.workouts.map((workout: any) => (
+                      {selectedEvents.workouts.map((workout: Workout) => (
                         <div key={workout._id} style={{
                           background: 'rgba(59, 130, 246, 0.1)',
                           border: '1px solid rgba(59, 130, 246, 0.2)',
@@ -510,7 +534,7 @@ const Calendar = () => {
                       Meals ({selectedEvents.meals.length})
                     </h4>
                     <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
-                      {selectedEvents.meals.map((meal: any) => {
+                      {selectedEvents.meals.map((meal: Meal) => {
                         const totals = getMealTotals(meal.foodItems || []);
                         return (
                           <div key={meal._id} style={{
@@ -539,7 +563,7 @@ const Calendar = () => {
                             {/* List food items */}
                             {meal.foodItems && meal.foodItems.length > 0 && (
                               <div style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
-                                {meal.foodItems.map((item: any, idx: number) => (
+                                {meal.foodItems.map((item: FoodItem, idx: number) => (
                                   <div key={idx} style={{
                                     background: 'rgba(255,255,255,0.04)',
                                     borderRadius: '6px',

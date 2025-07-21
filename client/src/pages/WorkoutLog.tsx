@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { getWorkouts, addWorkout, updateWorkout, deleteWorkout } from '../services/api';
 import { useAuth } from '../context/AuthContext';
-import { FaDumbbell, FaPlus, FaTrash, FaEdit, FaClock, FaFire, FaCalendarAlt } from 'react-icons/fa';
+import { FaDumbbell, FaPlus, FaTrash, FaEdit, FaClock, FaFire } from 'react-icons/fa';
 
 type Workout = {
   _id: string;

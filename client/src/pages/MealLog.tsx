@@ -4,9 +4,25 @@ import { getMeals, addMeal, updateMeal, deleteMeal } from '../services/api';
 import { useAuth } from '../context/AuthContext';
 import { FaUtensils, FaPlus, FaTrash, FaEdit, FaAppleAlt, FaDrumstickBite, FaBreadSlice, FaLeaf } from 'react-icons/fa';
 
+// Add interfaces at the top
+interface FoodItem {
+  name: string;
+  calories: number | string;
+  protein: number | string;
+  carbs: number | string;
+  fat: number | string;
+}
+interface Meal {
+  _id: string;
+  mealType: string;
+  notes?: string;
+  date: string;
+  foodItems: FoodItem[];
+}
+
 const MealLog = () => {
   const { token } = useAuth();
-  const [meals, setMeals] = useState([]);
+  const [meals, setMeals] = useState<Meal[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
   const [showForm, setShowForm] = useState(false);
@@ -374,7 +390,7 @@ const MealLog = () => {
                 }}>
                   Food Items
                 </label>
-                {formData.foodItems.map((item, idx) => (
+                {formData.foodItems.map((item: FoodItem, idx) => (
                   <div key={idx} style={{
                     display: 'grid',
                     gridTemplateColumns: 'repeat(auto-fit, minmax(120px, 1fr))',
@@ -627,7 +643,7 @@ const MealLog = () => {
               gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))',
               gap: 'clamp(12px, 2vw, 24px)'
             }}>
-              {meals.map((meal: any) => {
+              {meals.map((meal: Meal) => {
                 const totals = getMealTotals(meal.foodItems || []);
                 return (
                 <motion.div
