@@ -97,7 +97,7 @@ const MealLog = () => {
     }
   };
 
-  const handleEdit = (meal: any) => {
+  const handleEdit = (meal: Meal) => {
     setEditingMeal(meal);
     setFormData({
       mealType: meal.mealType,
@@ -145,7 +145,7 @@ const MealLog = () => {
   };
 
   // Helper to sum nutrition
-  const getMealTotals = (foodItems: any[]) => {
+  const getMealTotals = (foodItems: FoodItem[]) => {
     return foodItems.reduce(
       (totals, item) => ({
         calories: totals.calories + (Number(item.calories) || 0),
@@ -158,7 +158,7 @@ const MealLog = () => {
   };
 
   // Helper to sum all meals for the day
-  const getDayTotals = (meals: any[]) => {
+  const getDayTotals = (meals: Meal[]) => {
     return meals.reduce((tot, meal) => {
       const t = getMealTotals(meal.foodItems || []);
       return {

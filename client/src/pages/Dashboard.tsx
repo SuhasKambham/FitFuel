@@ -325,7 +325,7 @@ const Dashboard = () => {
               <ResponsiveContainer width="100%" height={250}>
                 <PieChart>
                   <Pie data={workoutPie} dataKey="value" nameKey="type" cx="50%" cy="50%" outerRadius={80} label>
-                    {workoutPie.map((entry: PieData, idx: number) => (
+                    {workoutPie.map((_, idx: number) => (
                       <Cell key={`cell-${idx}`} fill={['#3b82f6', '#10b981', '#f59e0b', '#8b5cf6', '#ef4444', '#06b6d4', '#7c3aed', '#059669'][idx % 8]} />
                     ))}
                   </Pie>
@@ -352,7 +352,7 @@ const Dashboard = () => {
               <ResponsiveContainer width="100%" height={250}>
                 <PieChart>
                   <Pie data={mealPie} dataKey="calories" nameKey="mealType" cx="50%" cy="50%" outerRadius={80} label>
-                    {mealPie.map((entry: MealPieData, idx: number) => (
+                    {mealPie.map((_, idx: number) => (
                       <Cell key={`cell-mtype-${idx}`} fill={['#f59e0b', '#10b981', '#8b5cf6', '#06b6d4'][idx % 4]} />
                     ))}
                   </Pie>
